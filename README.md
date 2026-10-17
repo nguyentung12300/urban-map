@@ -192,8 +192,6 @@ print(result.stdout.strip())
 
 ## Screenshots
 
-The paths below are reserved for sanitized application screenshots. Add the corresponding image files before publishing the gallery. Exclude real survey coordinates, personal information, and private project identifiers.
-
 ![Seven standardized GIS layers for one urban study area](docs/images/01-seven-layers.png)
 
 *Seven standardized map layers generated for a single study area.*
