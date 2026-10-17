@@ -1,0 +1,33 @@
+# Integration template only: this public repository does not ship the production worker images.
+services:
+  map-worker:
+    image: ${MAP_WORKER_IMAGE:-urban-map-map-worker:local}
+    init: true
+    restart: unless-stopped
+    ports:
+      - "${MAP_WORKER_PORT:-8000}:8000"
+    environment:
+      MAP_WORKER_DATA_DIR: /var/lib/urban-map
+      DEPTHMAPX_CLI_PATH: ${DEPTHMAPX_CLI_PATH:-/usr/local/bin/depthmapXcli}
+    volumes:
+      - map-worker-data:/var/lib/urban-map
+    # Install depthmapXcli in this worker image at DEPTHMAPX_CLI_PATH.
+    # Put authentication and a reverse proxy in front of any public endpoint.
+
+  # Optional one-shot diagnostics using the same CLI binary in a separate image.
+  # The Map Worker invokes its own installed binary; this is not a network service.
+  depthmapx-cli:
+    image: ${DEPTHMAPXCLI_IMAGE:-urban-map-depthmapxcli:local}
+    profiles: ["tools"]
+    entrypoint: ["depthmapXcli"]
+    command: ["-v"]
+    volumes:
+      - map-worker-data:/var/lib/urban-map
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+volumes:
+  map-worker-data:
