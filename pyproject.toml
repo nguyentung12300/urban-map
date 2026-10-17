@@ -4,13 +4,17 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "urban-map-public"
-version = "0.1.0"
-description = "Standalone GeoJSON validation and safe depthmapXcli helpers for urban analysis"
+version = "0.2.0"
+description = "Reusable GIS metrics, GeoJSON validation, and safe depthmapXcli helpers for urban analysis"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { file = "LICENSE" }
 authors = [{ name = "Urban Map Team" }]
 dependencies = []
+
+[project.optional-dependencies]
+gis = ["osmnx==2.1.1"]
+schema = ["pydantic>=2,<3"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
